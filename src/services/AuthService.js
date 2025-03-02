@@ -20,7 +20,7 @@ const loginUser = async (userData) => {
             process.env.JWT_SECRET_KEY,
             { expiresIn: '1h' }
         );
-        return {user, token, isPasswordValid};
+        return {user, token};
     } catch (error) {
         throw new Error('Error login user: ' + error.message);
     }
