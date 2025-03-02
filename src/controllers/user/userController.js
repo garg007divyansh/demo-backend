@@ -1,6 +1,6 @@
-const userService = require('../../services/index');
 const mongoose = require('mongoose');
 const successHandler = require('../../utils/successHandler');
+const { userService } = require('../../services');
 
 const getAllUsers = async (req, res) => {
     try {
