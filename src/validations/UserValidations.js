@@ -20,4 +20,4 @@ const validateUser = (data) => {
     return { isValid: true };
 };
 
-module.exports = { validateUser };
+module.exports = validateUser ;

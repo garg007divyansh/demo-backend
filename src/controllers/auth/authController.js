@@ -1,6 +1,6 @@
-const userValidations = require('../../validations/UserValidations');
 const { authService } = require('../../services');
 const { successHandler } = require('../../utils');
+const { validateUser } = require('../../validations');
 
 const loginUser = async (req, res) => {
     try {
@@ -33,7 +33,7 @@ const createUser = async (req, res) => {
     try {
         const { name, email, phone, password } = req.body;
 
-        const validation = userValidations.validateUser(req.body);
+        const validation = validateUser(req.body);
         if (!validation.isValid) {
             return res.status(400).json({
                 message: validation.message,
