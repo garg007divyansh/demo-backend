@@ -2,6 +2,10 @@ const User = require('../models/Users');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const findUserExists = async (email, phone) => {
+    return await User.findOne({ $or: [{ email }, { phone }] });
+};
+
 const loginUser = async (userData) => {
     try {
         const user = await User.findOne({email: userData.email})
@@ -26,6 +30,21 @@ const loginUser = async (userData) => {
     }
 };
 
+const createUser = async (userData) => {
+    try {
+        const salt = await bcrypt.genSalt(10);
+        userData.password = await bcrypt.hash(userData.password, salt);
+        const user = new User(userData); // Create a new User instance
+        await user.save(); // Save the user to the database
+        return user;
+    } catch (error) {
+        throw new Error('Error creating user: ' + error.message);
+    }
+};
+
+
 module.exports = {
     loginUser,
+    createUser,
+    findUserExists,
 };

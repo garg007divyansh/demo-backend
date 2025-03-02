@@ -1,5 +1,4 @@
 const User = require('../models/Users');
-const bcrypt = require('bcryptjs');
 
 const getAllUsers = async () => {
     try {
@@ -16,18 +15,6 @@ const getUserById = async (id) => {
         return user;
     } catch (error) {
         throw new Error('Error fetching user by id: ' + error.message);
-    }
-};
-
-const createUser = async (userData) => {
-    try {
-        const salt = await bcrypt.genSalt(10);
-        userData.password = await bcrypt.hash(userData.password, salt);
-        const user = new User(userData); // Create a new User instance
-        await user.save(); // Save the user to the database
-        return user;
-    } catch (error) {
-        throw new Error('Error creating user: ' + error.message);
     }
 };
 
@@ -49,13 +36,7 @@ const deleteUserById = async (id) => {
     }
 };
 
-const findUserExists = async (email, phone) => {
-    return await User.findOne({ $or: [{ email }, { phone }] });
-};
-
 module.exports = {
-    createUser,
-    findUserExists,
     getAllUsers,
     getUserById,
     updateUser,
