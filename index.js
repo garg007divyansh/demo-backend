@@ -1,13 +1,13 @@
 const express = require('express');
 const app = express();
 const connectDB = require('./src/databases/connection');
-const indexRoutes = require('./src/routes/index');
+const appRoutes = require('./src/routes');
 
 // Middleware to parse JSON
 app.use(express.json());
 
 // Mount the routes
-app.use('/', indexRoutes);
+app.use('/', appRoutes);
 
 // db connection
 connectDB();
