@@ -3,12 +3,12 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../../models');
 
 const findUserExists = async (email, phone) => {
-    return await User.findOne({ $or: [{ email }, { phone }] });
+    return await User.Users.findOne({ $or: [{ email }, { phone }] });
 };
 
 const loginUser = async (userData) => {
     try {
-        const user = await User.findOne({email: userData.email})
+        const user = await User.Users.findOne({email: userData.email})
         if (!user) {
             throw new Error('User not found');
         }
