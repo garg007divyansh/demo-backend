@@ -31,7 +31,7 @@ const loginUser = async (req, res) => {
 
 const createUser = async (req, res) => {
     try {
-        const { name, email, phone, password } = req.body; // Extract data from the request body
+        const { name, email, phone, password } = req.body;
 
         const validation = userValidations.validateUser(req.body);
         if (!validation.isValid) {
