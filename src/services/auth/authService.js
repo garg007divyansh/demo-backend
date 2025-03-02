@@ -34,7 +34,7 @@ const createUser = async (userData) => {
     try {
         const salt = await bcrypt.genSalt(10);
         userData.password = await bcrypt.hash(userData.password, salt);
-        const user = new User(userData); // Create a new User instance
+        const user = new User.Users(userData); // Create a new User instance
         await user.save(); // Save the user to the database
         return user;
     } catch (error) {
