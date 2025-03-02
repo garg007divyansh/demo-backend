@@ -1,5 +1,6 @@
 const User = require('../models/Users');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const loginUser = async (userData) => {
     try {
@@ -12,7 +13,14 @@ const loginUser = async (userData) => {
         if (!isPasswordValid) {
             throw new Error('Incorrect password');
         }
-        return user;
+
+        // Generate JWT Token
+        const token = jwt.sign(
+            { id: user._id, email: user.email },
+            process.env.JWT_SECRET_KEY,
+            { expiresIn: '1h' }
+        );
+        return {user, token, isPasswordValid};
     } catch (error) {
         throw new Error('Error login user: ' + error.message);
     }
