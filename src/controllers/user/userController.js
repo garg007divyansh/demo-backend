@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const successHandler = require('../../utils/successHandler');
 const { userService } = require('../../services');
+const { successHandler } = require('../../utils');
 
 const getAllUsers = async (req, res) => {
     try {

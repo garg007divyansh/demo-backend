@@ -1,6 +1,6 @@
 const userValidations = require('../../validations/UserValidations');
-const successHandler = require('../../utils/successHandler');
 const { authService } = require('../../services');
+const { successHandler } = require('../../utils');
 
 const loginUser = async (req, res) => {
     try {
