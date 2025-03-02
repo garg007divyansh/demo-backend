@@ -20,6 +20,13 @@ const getAllUsers = async (req, res) => {
 const getUserById = async (req, res) => {
     try {
         const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                message: 'Invalid user ID',
+                status: false,
+                success: false,
+            });
+        }
         const user = await userService.getUserById(id);
         if (!user) {
             return res.status(404).json({
