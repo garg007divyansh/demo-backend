@@ -1,15 +1,17 @@
 const userService = require('../services/UserService');
 const mongoose = require('mongoose');
+const successHandler = require('../utils/successHandler');
 
 const getAllUsers = async (req, res) => {
     try {
         const user = await userService.getAllUsers();
-        res.status(200).json({ 
-            message: 'Users retrieved successfully',
-            status: true, 
-            success: true, 
-            user 
-        });
+        // res.status(200).json({ 
+        //     message: 'Users retrieved successfully',
+        //     status: true, 
+        //     success: true, 
+        //     user 
+        // });
+        successHandler(res, 'Users retrieved successfully', user);
     } catch (error) {
         console.error('Error Fetching users:', error.message);
         res.status(500).json({ 
@@ -32,12 +34,7 @@ const getUserById = async (req, res) => {
                 success: false,
             });
         }
-        res.status(200).json({ 
-            message: 'User retrieved successfully',
-            status: true, 
-            success: true, 
-            user 
-        });
+        successHandler(res, 'Users retrieved successfully', user);
     } catch (error) {
         console.error('Error Fetching user:', error.message);
         res.status(500).json({ 
@@ -68,12 +65,7 @@ const updateUser = async (req, res) => {
                 success: false,
             });
         }
-        res.status(200).json({ 
-            message: 'User Updated successfully',
-            status: true, 
-            success: true, 
-            user: updatedUser
-        });
+        successHandler(res, 'Users updated successfully', updatedUser);
     } catch (error) {
         console.error('Error updated user:', error.message);
         res.status(500).json({ 
@@ -103,11 +95,7 @@ const deleteUserById = async (req, res) => {
                 success: false,
             });
         }
-        res.status(200).json({ 
-            message: 'User Deleted successfully',
-            status: true, 
-            success: true, 
-        });
+        successHandler(res, 'Users Deleted successfully', null);
     } catch (error) {
         console.error('Error deleting user:', error.message);
         res.status(500).json({ 

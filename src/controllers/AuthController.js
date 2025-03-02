@@ -12,14 +12,6 @@ const loginUser = async (req, res) => {
             });
         }
         const response = await authService.loginUser({ email, password });
-        console.log(response, 'response')
-        // if (!response.user) {
-        //     return res.status(404).json({
-        //         message: 'User not found',
-        //         status: false,
-        //         success: false,
-        //     });
-        // }
         
         res.status(200).json({ 
             message: 'User login successfully', 
