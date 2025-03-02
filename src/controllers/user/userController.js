@@ -1,16 +1,10 @@
-const userService = require('../services/UserService');
+const userService = require('../../services/UserService');
 const mongoose = require('mongoose');
-const successHandler = require('../utils/successHandler');
+const successHandler = require('../../utils/successHandler');
 
 const getAllUsers = async (req, res) => {
     try {
         const user = await userService.getAllUsers();
-        // res.status(200).json({ 
-        //     message: 'Users retrieved successfully',
-        //     status: true, 
-        //     success: true, 
-        //     user 
-        // });
         successHandler(res, 200, 'Users retrieved successfully', user);
     } catch (error) {
         console.error('Error Fetching users:', error.message);
