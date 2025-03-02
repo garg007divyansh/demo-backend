@@ -1,5 +1,6 @@
 const authService = require('../services/AuthService');
 const userValidations = require('../validations/UserValidations');
+const successHandler = require('../utils/successHandler');
 
 const loginUser = async (req, res) => {
     try {
@@ -12,14 +13,11 @@ const loginUser = async (req, res) => {
             });
         }
         const response = await authService.loginUser({ email, password });
-        
-        res.status(200).json({ 
-            message: 'User login successfully', 
-            status: true, 
-            success: true, 
+        let data = {
             token: response.token,
-            data: response.user
-        });
+            user: response.user
+        }
+        successHandler(res, 'Users login successfully', data);
     } catch (error) {
         console.error('Error login user:', error.message);
         res.status(500).json({ 
