@@ -1,4 +1,4 @@
-const authService = require('../../services/AuthService');
+const authService = require('../../services/index');
 const userValidations = require('../../validations/UserValidations');
 const successHandler = require('../../utils/successHandler');
 

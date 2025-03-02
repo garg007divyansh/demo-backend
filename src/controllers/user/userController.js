@@ -1,4 +1,4 @@
-const userService = require('../../services/UserService');
+const userService = require('../../services/index');
 const mongoose = require('mongoose');
 const successHandler = require('../../utils/successHandler');
 

@@ -1,6 +1,6 @@
-const User = require('../models/Users');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { User } = require('../../models');
 
 const findUserExists = async (email, phone) => {
     return await User.findOne({ $or: [{ email }, { phone }] });
