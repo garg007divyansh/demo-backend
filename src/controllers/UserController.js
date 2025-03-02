@@ -11,7 +11,7 @@ const getAllUsers = async (req, res) => {
         //     success: true, 
         //     user 
         // });
-        successHandler(res, 'Users retrieved successfully', user);
+        successHandler(res, 200, 'Users retrieved successfully', user);
     } catch (error) {
         console.error('Error Fetching users:', error.message);
         res.status(500).json({ 
@@ -34,7 +34,7 @@ const getUserById = async (req, res) => {
                 success: false,
             });
         }
-        successHandler(res, 'Users retrieved successfully', user);
+        successHandler(res, 200, 'Users retrieved successfully', user);
     } catch (error) {
         console.error('Error Fetching user:', error.message);
         res.status(500).json({ 
@@ -65,7 +65,7 @@ const updateUser = async (req, res) => {
                 success: false,
             });
         }
-        successHandler(res, 'Users updated successfully', updatedUser);
+        successHandler(res, 200, 'Users updated successfully', updatedUser);
     } catch (error) {
         console.error('Error updated user:', error.message);
         res.status(500).json({ 
@@ -95,7 +95,7 @@ const deleteUserById = async (req, res) => {
                 success: false,
             });
         }
-        successHandler(res, 'Users Deleted successfully', null);
+        successHandler(res, 200, 'Users Deleted successfully', null);
     } catch (error) {
         console.error('Error deleting user:', error.message);
         res.status(500).json({ 

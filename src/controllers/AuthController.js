@@ -17,7 +17,7 @@ const loginUser = async (req, res) => {
             token: response.token,
             user: response.user
         }
-        successHandler(res, 'Users login successfully', data);
+        successHandler(res, 200, 'Users login successfully', data);
     } catch (error) {
         console.error('Error login user:', error.message);
         res.status(500).json({ 
@@ -56,12 +56,13 @@ const createUser = async (req, res) => {
         // Call the service to create a user
         const user = await authService.createUser({ name, email, phone, password });
 
-        res.status(201).json({ 
-            message: 'User created successfully', 
-            status: true, 
-            success: true, 
-            user 
-        });
+        // res.status(201).json({ 
+        //     message: 'User created successfully', 
+        //     status: true, 
+        //     success: true, 
+        //     user 
+        // });
+        successHandler(res, 201, 'Users created successfully', user);
     } catch (error) {
         console.error('Error creating user:', error.message);
         res.status(500).json({ 
