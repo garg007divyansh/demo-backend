@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-const { userService } = require('../../services');
+const { adminService } = require('../../services');
 const { successHandler } = require('../../utils');
 
 const getAllUsers = async (req, res) => {
     try {
-        const user = await userService.getAllUsers();
+        const user = await adminService.getAllUsers();
         successHandler(res, 200, 'Users retrieved successfully', user);
     } catch (error) {
         console.error('Error Fetching users:', error.message);
@@ -27,7 +27,7 @@ const getUserById = async (req, res) => {
                 success: false,
             });
         }
-        const user = await userService.getUserById(id);
+        const user = await adminService.getUserById(id);
         if (!user) {
             return res.status(404).json({
                 message: 'User not found',
@@ -58,7 +58,7 @@ const updateUser = async (req, res) => {
                 success: false,
             });
         }
-        const updatedUser = await userService.updateUser(id, { name, email, phone });
+        const updatedUser = await adminService.updateUser(id, { name, email, phone });
         if (!updatedUser) {
             return res.status(404).json({
                 message: 'User not found',
@@ -88,7 +88,7 @@ const deleteUserById = async (req, res) => {
                 success: false,
             });
         }
-        const user = await userService.deleteUserById(id);
+        const user = await adminService.deleteUserById(id);
         if (!user) {
             return res.status(404).json({
                 message: 'User not found',
