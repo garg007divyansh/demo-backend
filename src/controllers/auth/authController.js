@@ -1,5 +1,5 @@
 const { authService } = require('../../services');
-const { successHandler } = require('../../utils');
+const { successHandler, errorHandler } = require('../../utils');
 const { validateUser } = require('../../validations');
 
 const loginUser = async (req, res) => {
@@ -11,8 +11,17 @@ const loginUser = async (req, res) => {
                 status: false,
                 success: false,
             });
+            // errorHandler(res, 400, 'Email and Password are required', null);
         }
         const response = await authService.loginUser({ email, password });
+        if (!response.success) {
+            console.log('1234567', response.message);
+            return res.status(404).json({
+                message: response.message,
+                status: false,
+                success: false,
+            });
+        }
         let data = {
             token: response.token,
             user: response.user

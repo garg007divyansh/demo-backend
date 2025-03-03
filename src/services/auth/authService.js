@@ -10,22 +10,24 @@ const loginUser = async (userData) => {
     try {
         const user = await User.Users.findOne({email: userData.email})
         if (!user) {
-            throw new Error('User not found');
+            console.log('User not found1');
+            return { success: false, message: 'User not found' };
         }
         // Compare password
         const isPasswordValid = await bcrypt.compare(userData.password, user.password);
         if (!isPasswordValid) {
-            throw new Error('Incorrect password');
+            return { success: false, message: 'Incorrect password' };
+            // throw new Error('Incorrect password');
         }
-
         // Generate JWT Token
         const token = jwt.sign(
             { id: user._id, email: user.email },
             process.env.JWT_SECRET_KEY,
             { expiresIn: '1h' }
         );
-        return {user, token};
+        return {user, token, success: true};
     } catch (error) {
+        console.log('User not found2');
         throw new Error('Error login user: ' + error.message);
     }
 };
