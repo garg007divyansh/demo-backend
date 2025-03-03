@@ -11,11 +11,9 @@ const loginUser = async (req, res) => {
                 status: false,
                 success: false,
             });
-            // errorHandler(res, 400, 'Email and Password are required', null);
         }
         const response = await authService.loginUser({ email, password });
         if (!response.success) {
-            console.log('1234567', response.message);
             return res.status(404).json({
                 message: response.message,
                 status: false,
@@ -24,7 +22,11 @@ const loginUser = async (req, res) => {
         }
         let data = {
             token: response.token,
-            user: response.user
+            id: response.user._id,
+            name: response.user.name,
+            email: response.user.email,
+            phone: response.user.phone,
+            roleId: response.user.roleId
         }
         successHandler(res, 200, 'Users login successfully', data);
     } catch (error) {
@@ -40,7 +42,7 @@ const loginUser = async (req, res) => {
 
 const createUser = async (req, res) => {
     try {
-        const { name, email, phone, password } = req.body;
+        const { name, email, phone, password, roleId } = req.body;
 
         const validation = validateUser(req.body);
         if (!validation.isValid) {
@@ -50,9 +52,15 @@ const createUser = async (req, res) => {
                 success: false,
             });
         }
+        if (roleId === 1) {
+            return res.status(400).json({
+                message: `RoleId 1 is not assignable`,
+                status: false,
+                success: false,
+            });
+        }
 
         const existingUser = await authService.findUserExists(email, phone);
-
         if (existingUser) {
             return res.status(400).json({
                 message: `User already exists`,
@@ -60,8 +68,16 @@ const createUser = async (req, res) => {
                 success: false,
             });
         }
-        const user = await authService.createUser({ name, email, phone, password });
-        successHandler(res, 201, 'Users created successfully', user);
+
+        const response = await authService.createUser({ name, email, phone, password, roleId });
+        if (!response.success) {
+            return res.status(404).json({
+                message: response.message,
+                status: false,
+                success: false,
+            });
+        }
+        successHandler(res, 201, 'Users created successfully', response.user);
     } catch (error) {
         console.error('Error creating user:', error.message);
         res.status(500).json({ 

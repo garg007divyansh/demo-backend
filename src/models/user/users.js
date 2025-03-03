@@ -19,6 +19,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    roleId: {
+        type: Number,
+        // ref: 'roles',
+        required: true
+    }
 });
 
 userSchema.set('toJSON', {

@@ -1,3 +1,4 @@
 const User = require('./user/users');
+const Roles = require('./roles/roles');
 
-module.exports = { User };
+module.exports = { User, Roles };
