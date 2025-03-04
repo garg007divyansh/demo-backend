@@ -1,4 +1,7 @@
-const successHandler = require('./successHandler');
-const errorHandler = require('./errorHandler');
+import { successHandler } from "./successHandler.js";
+import { errorHandler } from "./errorHandler.js";
 
-module.exports = { successHandler, errorHandler };
+export {
+    successHandler,
+    errorHandler
+}

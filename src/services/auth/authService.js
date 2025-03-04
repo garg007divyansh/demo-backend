@@ -1,14 +1,14 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { User, Roles } = require('../../models');
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { Users, Roles } from '../../models/index.js';
 
-const findUserExists = async (email, phone) => {
-    return await User.Users.findOne({ $or: [{ email }, { phone }] });
+export const findUserExists = async (email, phone) => {
+    return await Users.findOne({ $or: [{ email }, { phone }] });
 };
 
-const loginUser = async (userData) => {
+export const loginUser = async (userData) => {
     try {
-        const user = await User.Users.findOne({email: userData.email})
+        const user = await Users.findOne({email: userData.email})
         if (!user) {
             return { success: false, message: 'User not found' };
         }
@@ -29,25 +29,18 @@ const loginUser = async (userData) => {
     }
 };
 
-const createUser = async (userData) => {
+export const createUser = async (userData) => {
     try {
-        const role = await Roles.Roles.findOne({id: userData.roleId})
+        const role = await Roles.findOne({id: userData.roleId})
         if (!role) {
             return { success: false, message: 'Role not found' };
         }
         const salt = await bcrypt.genSalt(10);
         userData.password = await bcrypt.hash(userData.password, salt);
-        const user = new User.Users(userData);
+        const user = new Users(userData);
         await user.save();
         return {user, success: true};
     } catch (error) {
         throw new Error('Error creating user: ' + error.message);
     }
-};
-
-
-module.exports = {
-    loginUser,
-    createUser,
-    findUserExists,
 };

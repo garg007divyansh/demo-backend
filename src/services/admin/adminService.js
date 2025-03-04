@@ -1,44 +1,37 @@
-const { User } = require("../../models");
+import { Users } from '../../models/index.js';
 
-const getAllUsers = async () => {
+export const getAllUsers = async () => {
     try {
-        const users = await User.Users.find();
+        const users = await Users.find();
         return users;
     } catch (error) {
         throw new Error('Error fetching user: ' + error.message);
     }
 };
 
-const getUserById = async (id) => {
+export const getUserById = async (id) => {
     try {
-        const user = await User.Users.findById(id)
+        const user = await Users.findById(id)
         return user;
     } catch (error) {
         throw new Error('Error fetching user by id: ' + error.message);
     }
 };
 
-const updateUser = async (id, updatedData) => {
+export const updateUser = async (id, updatedData) => {
     try {
-        const updatedUser = await User.Users.findByIdAndUpdate(id, { $set: updatedData }, { new: true });
+        const updatedUser = await Users.findByIdAndUpdate(id, { $set: updatedData }, { new: true });
         return updatedUser;
     } catch (error) {
         throw new Error('Error updating user: ' + error.message);
     }
 };
 
-const deleteUserById = async (id) => {
+export const deleteUserById = async (id) => {
     try {
-        const user = await User.Users.findByIdAndDelete(id);
+        const user = await Users.findByIdAndDelete(id);
         return user;
     } catch (error) {
         throw new Error('Error deleting user: ' + error.message);
     }
-};
-
-module.exports = {
-    getAllUsers,
-    getUserById,
-    updateUser,
-    deleteUserById,
 };

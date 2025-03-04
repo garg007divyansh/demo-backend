@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import { authController, adminController, masterController } from '../controllers/index.js';
+import { authenticateToken, checkSuperAdmin } from '../middleware/index.js';
+
 const router = express.Router();
-const {authController, adminController, masterController} = require('../controllers/index');
-const { authenticateToken, checkSuperAdmin } = require('../middleware');
 
 //master routes
 router.get('/getAllRoles', masterController.getAllRoles);
@@ -19,4 +20,4 @@ router.delete('/deleteUserById/:id', [authenticateToken, checkSuperAdmin], admin
 //user routes
 //get uerby token, update user by toiken
 
-module.exports = router;
+export default router;

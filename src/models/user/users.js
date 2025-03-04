@@ -1,29 +1,29 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
     },
     phone: {
         type: Number,
         required: true,
-        unique: true
+        unique: true,
     },
     password: {
         type: String,
-        required: true
+        required: true,
     },
     roleId: {
         type: Number,
         // ref: 'roles',
-        required: true
-    }
+        required: true,
+    },
 });
 
 userSchema.set('toJSON', {
@@ -34,6 +34,4 @@ userSchema.set('toJSON', {
     },
 });
 
-const Users = mongoose.model('users', userSchema);
-
-module.exports = { Users }
+export const Users = mongoose.model('users', userSchema);

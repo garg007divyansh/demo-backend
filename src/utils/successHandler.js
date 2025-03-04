@@ -1,4 +1,4 @@
-const successHandler = (res, statusCode, message, data = null) => {
+export const successHandler = (res, statusCode, message, data = null) => {
     res.status(statusCode).json({
         message,
         status: true,
@@ -6,5 +6,3 @@ const successHandler = (res, statusCode, message, data = null) => {
         data,
     });
 };
-
-module.exports = successHandler

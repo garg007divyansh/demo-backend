@@ -1,2 +1,4 @@
-const appRoutes = require('./routes');
-module.exports = appRoutes;
+import router from "./routes.js";
+export {
+    router
+}

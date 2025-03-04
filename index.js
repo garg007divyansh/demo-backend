@@ -1,13 +1,14 @@
-const express = require('express');
+import express from 'express';
+import { connectDB } from './src/databases/index.js';
+import { router } from './src/routes/index.js';
+
 const app = express();
-const connectDB = require('./src/databases/connection');
-const appRoutes = require('./src/routes');
 
 // Middleware to parse JSON
 app.use(express.json());
 
 // Mount the routes
-app.use('/', appRoutes);
+app.use('/', router);
 
 // db connection
 connectDB();

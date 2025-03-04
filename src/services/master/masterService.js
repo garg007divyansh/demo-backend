@@ -1,14 +1,10 @@
-const { Roles } = require("../../models");
+import { Roles } from '../../models/index.js';
 
-const getAllRoles = async () => {
+export const getAllRoles = async () => {
     try {
-        const roles = await Roles.Roles.find({id : {$nin: [1]}});
+        const roles = await Roles.find({id : {$nin: [1]}});
         return roles;
     } catch (error) {
         throw new Error('Error fetching user: ' + error.message);
     }
-};
-
-module.exports = {
-    getAllRoles,
 };

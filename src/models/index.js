@@ -1,4 +1,4 @@
-const User = require('./user/users');
-const Roles = require('./roles/roles');
+import { Users } from "./user/users.js";
+import { Roles } from "./roles/roles.js";
 
-module.exports = { User, Roles };
+export { Users, Roles };

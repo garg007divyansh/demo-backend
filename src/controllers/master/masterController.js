@@ -1,7 +1,7 @@
-const { masterService } = require('../../services');
-const { successHandler } = require('../../utils');
+import { masterService } from '../../services/index.js';
+import { successHandler } from '../../utils/index.js';
 
-const getAllRoles = async (req, res) => {
+export const getAllRoles = async (req, res) => {
     try {
         const roles = await masterService.getAllRoles();
         successHandler(res, 200, 'Roles retrieved successfully', roles);
@@ -15,5 +15,3 @@ const getAllRoles = async (req, res) => {
         });
     }
 };
-
-module.exports = { getAllRoles };

@@ -1,4 +1,4 @@
-const checkSuperAdmin = (req, res, next) => {
+export const checkSuperAdmin = (req, res, next) => {
     const { user } = req;
     if (user.roleId !== 1) {
         return res.status(403).json({
@@ -8,8 +8,4 @@ const checkSuperAdmin = (req, res, next) => {
         });
     }
     next();
-};
-
-module.exports = {
-    checkSuperAdmin,
 };

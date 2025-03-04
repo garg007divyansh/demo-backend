@@ -1,23 +1,23 @@
-const mongoose = require('mongoose');
-const { adminService } = require('../../services');
-const { successHandler } = require('../../utils');
+import mongoose from 'mongoose';
+import { successHandler } from '../../utils/index.js';
+import { adminService } from '../../services/index.js';
 
-const getAllUsers = async (req, res) => {
+export const getAllUsers = async (req, res) => {
     try {
         const user = await adminService.getAllUsers();
         successHandler(res, 200, 'Users retrieved successfully', user);
     } catch (error) {
         console.error('Error Fetching users:', error.message);
-        res.status(500).json({ 
-            message: 'Error Fetching users', 
-            status: false, 
-            success: false, 
-            error: error.message 
+        res.status(500).json({
+            message: 'Error Fetching users',
+            status: false,
+            success: false,
+            error: error.message
         });
     }
 };
 
-const getUserById = async (req, res) => {
+export const getUserById = async (req, res) => {
     try {
         const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -38,16 +38,16 @@ const getUserById = async (req, res) => {
         successHandler(res, 200, 'Users retrieved successfully', user);
     } catch (error) {
         console.error('Error Fetching user:', error.message);
-        res.status(500).json({ 
-            message: 'Error Fetching user', 
-            status: false, 
-            success: false, 
-            error: error.message 
+        res.status(500).json({
+            message: 'Error Fetching user',
+            status: false,
+            success: false,
+            error: error.message
         });
     }
 };
 
-const updateUser = async (req, res) => {
+export const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
         const { name, email, phone } = req.body;
@@ -69,16 +69,16 @@ const updateUser = async (req, res) => {
         successHandler(res, 200, 'Users updated successfully', updatedUser);
     } catch (error) {
         console.error('Error updated user:', error.message);
-        res.status(500).json({ 
-            message: 'Error updated user', 
-            status: false, 
-            success: false, 
-            error: error.message 
+        res.status(500).json({
+            message: 'Error updated user',
+            status: false,
+            success: false,
+            error: error.message
         });
     }
 };
 
-const deleteUserById = async (req, res) => {
+export const deleteUserById = async (req, res) => {
     try {
         const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -99,13 +99,11 @@ const deleteUserById = async (req, res) => {
         successHandler(res, 200, 'Users Deleted successfully', null);
     } catch (error) {
         console.error('Error deleting user:', error.message);
-        res.status(500).json({ 
-            message: 'Error deleting user', 
-            status: false, 
-            success: false, 
-            error: error.message 
+        res.status(500).json({
+            message: 'Error deleting user',
+            status: false,
+            success: false,
+            error: error.message
         });
     }
 };
-
-module.exports = { getAllUsers, getUserById, updateUser, deleteUserById };

@@ -1,4 +1,4 @@
-const validateUser = (data) => {
+export const validateUser = (data) => {
     const { name, email, phone, password, roleId } = data;
 
     if (!name) {
@@ -23,5 +23,3 @@ const validateUser = (data) => {
 
     return { isValid: true };
 };
-
-module.exports = validateUser ;

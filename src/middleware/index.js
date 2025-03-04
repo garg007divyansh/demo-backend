@@ -1,4 +1,2 @@
-const authenticateToken = require('./authMiddleware');
-const {checkSuperAdmin} = require('./authorityMiddleware');
-
-module.exports = { authenticateToken, checkSuperAdmin };
+export {authenticateToken} from './authMiddleware.js'
+export {checkSuperAdmin} from './authorityMiddleware.js'

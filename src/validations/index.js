@@ -1,3 +1,4 @@
-const validateUser = require('./userValidations');
-
-module.exports = { validateUser };
+import { validateUser } from './userValidations.js'
+export {
+    validateUser
+}

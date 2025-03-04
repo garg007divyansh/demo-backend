@@ -1,8 +1,8 @@
-const { authService } = require('../../services');
-const { successHandler, errorHandler } = require('../../utils');
-const { validateUser } = require('../../validations');
+import { validateUser } from '../../validations/index.js';
+import { successHandler } from '../../utils/index.js';
+import { authService } from '../../services/index.js';
 
-const loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
@@ -40,7 +40,7 @@ const loginUser = async (req, res) => {
     }
 };
 
-const createUser = async (req, res) => {
+export const createUser = async (req, res) => {
     try {
         const { name, email, phone, password, roleId } = req.body;
 
@@ -88,5 +88,3 @@ const createUser = async (req, res) => {
         });
     }
 };
-
-module.exports = { loginUser, createUser };

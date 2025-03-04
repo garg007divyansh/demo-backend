@@ -1,5 +1,9 @@
-const masterService = require('./master/masterService');
-const authService = require('./auth/authService');
-const adminService = require('./admin/adminService');
+import * as adminService from './admin/adminService.js';
+import * as authService from './auth/authService.js';
+import * as masterService from './master/masterService.js';
 
-module.exports = { masterService, authService, adminService };
+export {
+    adminService,
+    authService,
+    masterService
+}
