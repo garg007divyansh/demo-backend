@@ -88,3 +88,34 @@ export const register = async (req, res) => {
         });
     }
 };
+
+export const sendOtp = async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) {
+            return res.status(400).json({
+                message: 'Email is required',
+                status: false,
+                success: false,
+            });
+        }
+        const response = await authService.sendOtp(email);
+        if (!response.success) {
+            return res.status(404).json({
+                message: response.message,
+                status: false,
+                success: false,
+            });
+        }
+        let data = null
+        successHandler(res, 200, 'OTP sent successfully to your email', data);
+    } catch (error) {
+        console.error('Error sending otp:', error.message);
+        res.status(500).json({ 
+            message: 'Error sending otp', 
+            status: false, 
+            success: false, 
+            error: error.message 
+        });
+    }
+};
