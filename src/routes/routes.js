@@ -14,11 +14,11 @@ router.post('/register', authController.register);
 // admin routes
 router.get('/getAllUsers', [authenticateToken, checkSuperAdmin], adminController.getAllUsers);
 router.get('/getUserById/:id', [authenticateToken, checkSuperAdmin], adminController.getUserById);
-router.put('/update-user/:id', [authenticateToken, checkSuperAdmin], adminController.updateUserById);
+router.put('/updateUserById/:id', [authenticateToken, checkSuperAdmin], adminController.updateUserById);
 router.delete('/deleteUserById/:id', [authenticateToken, checkSuperAdmin], adminController.deleteUserById);
 
 //user routes
 router.get('/getUserByToken', authenticateToken, userController.getUserByToken);
-//get uerby token, update user by toiken
+router.put('/updateUser', authenticateToken, userController.updateUser);
 
 export default router;

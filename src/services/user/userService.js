@@ -8,3 +8,12 @@ export const getUserByToken = async (userId) => {
         throw new Error('Error fetching user: ' + error.message);
     }
 };
+
+export const updateUser = async (userId, data) => {
+    try {
+        const user = await Users.findByIdAndUpdate(userId, { $set: data }, { new: true });
+        return user
+    } catch (error) {
+        throw new Error('Error fetching user: ' + error.message);
+    }
+};
