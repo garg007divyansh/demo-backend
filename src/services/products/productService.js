@@ -14,6 +14,6 @@ export const getAllProducts = async () => {
         const product = await Products.find();
         return product
     } catch (error) {
-        throw new Error('Error adding product: ' + error.message);
+        throw new Error('Error fetching product: ' + error.message);
     }
 }

@@ -33,9 +33,9 @@ export const getAllProducts = async (req, res) => {
         const response = await productService.getAllProducts();
         successHandler(res, 200, 'Products retrieved successfully', response);
     } catch (error) {
-        console.error('Error adding product:', error.message);
+        console.error('Error fetching product:', error.message);
         res.status(500).json({
-            message: 'Error adding product',
+            message: 'Error fetching product',
             status: false,
             success: false,
             error: error.message
