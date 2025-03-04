@@ -40,7 +40,7 @@ export const loginUser = async (req, res) => {
     }
 };
 
-export const createUser = async (req, res) => {
+export const register = async (req, res) => {
     try {
         const { name, email, phone, password, roleId } = req.body;
 
@@ -69,7 +69,7 @@ export const createUser = async (req, res) => {
             });
         }
 
-        const response = await authService.createUser({ name, email, phone, password, roleId });
+        const response = await authService.register({ name, email, phone, password, roleId });
         if (!response.success) {
             return res.status(404).json({
                 message: response.message,

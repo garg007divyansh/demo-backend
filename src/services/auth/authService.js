@@ -29,7 +29,7 @@ export const loginUser = async (userData) => {
     }
 };
 
-export const createUser = async (userData) => {
+export const register = async (userData) => {
     try {
         const role = await Roles.findOne({id: userData.roleId})
         if (!role) {

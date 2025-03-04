@@ -9,7 +9,7 @@ router.get('/getAllRoles', masterController.getAllRoles);
 
 //auth routes
 router.post('/loginUser', authController.loginUser);
-router.post('/create-user', authController.createUser);
+router.post('/register', authController.register);
 
 // admin routes
 router.get('/getAllUsers', [authenticateToken, checkSuperAdmin], adminController.getAllUsers);
