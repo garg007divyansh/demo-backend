@@ -18,7 +18,7 @@ export const getUserById = async (id) => {
     }
 };
 
-export const updateUser = async (id, updatedData) => {
+export const updateUserById = async (id, updatedData) => {
     try {
         const updatedUser = await Users.findByIdAndUpdate(id, { $set: updatedData }, { new: true });
         return updatedUser;

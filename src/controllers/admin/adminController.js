@@ -47,7 +47,7 @@ export const getUserById = async (req, res) => {
     }
 };
 
-export const updateUser = async (req, res) => {
+export const updateUserById = async (req, res) => {
     try {
         const { id } = req.params;
         const { name, email, phone } = req.body;
@@ -58,7 +58,7 @@ export const updateUser = async (req, res) => {
                 success: false,
             });
         }
-        const updatedUser = await adminService.updateUser(id, { name, email, phone });
+        const updatedUser = await adminService.updateUserById(id, { name, email, phone });
         if (!updatedUser) {
             return res.status(404).json({
                 message: 'User not found',
