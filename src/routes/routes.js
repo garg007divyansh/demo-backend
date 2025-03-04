@@ -1,5 +1,5 @@
 import express from 'express';
-import { authController, adminController, masterController, userController } from '../controllers/index.js';
+import { authController, adminController, masterController, userController, productController } from '../controllers/index.js';
 import { authenticateToken, checkSuperAdmin } from '../middleware/index.js';
 
 const router = express.Router();
@@ -22,5 +22,8 @@ router.delete('/deleteUserById/:id', [authenticateToken, checkSuperAdmin], admin
 //user routes
 router.get('/getUserByToken', authenticateToken, userController.getUserByToken);
 router.put('/updateUser', authenticateToken, userController.updateUser);
+
+//product routes
+router.post('/addProduct', authenticateToken, productController.addProduct);
 
 export default router;
