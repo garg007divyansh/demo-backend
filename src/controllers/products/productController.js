@@ -16,7 +16,22 @@ export const addProduct = async (req, res) => {
         }
 
         const response = await productService.addProduct({ name, description, price, image, category, brand, stock });
-        successHandler(res, 200, 'Product added successfully', response);
+        successHandler(res, 200, 'Product added successfully', null);
+    } catch (error) {
+        console.error('Error adding product:', error.message);
+        res.status(500).json({
+            message: 'Error adding product',
+            status: false,
+            success: false,
+            error: error.message
+        });
+    }
+}
+
+export const getAllProducts = async (req, res) => {
+    try {
+        const response = await productService.getAllProducts();
+        successHandler(res, 200, 'Products retrieved successfully', response);
     } catch (error) {
         console.error('Error adding product:', error.message);
         res.status(500).json({

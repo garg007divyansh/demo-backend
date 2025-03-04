@@ -8,3 +8,12 @@ export const addProduct = async (productData) => {
         throw new Error('Error adding product: ' + error.message);
     }
 }
+
+export const getAllProducts = async () => {
+    try {
+        const product = await Products.find();
+        return product
+    } catch (error) {
+        throw new Error('Error adding product: ' + error.message);
+    }
+}

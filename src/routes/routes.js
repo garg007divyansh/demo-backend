@@ -25,5 +25,6 @@ router.put('/updateUser', authenticateToken, userController.updateUser);
 
 //product routes
 router.post('/addProduct', authenticateToken, productController.addProduct);
+router.get('/getAllProducts', authenticateToken, productController.getAllProducts);
 
 export default router;
