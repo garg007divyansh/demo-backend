@@ -119,3 +119,48 @@ export const sendOtp = async (req, res) => {
         });
     }
 };
+
+export const verifyOtp = async (req, res) => {
+    try {
+        const { email, otp } = req.body;
+        if (!email) {
+            return res.status(400).json({
+                message: 'Email is required',
+                status: false,
+                success: false,
+            });
+        }
+        if (!otp) {
+            return res.status(400).json({
+                message: 'OTP is required',
+                status: false,
+                success: false,
+            });
+        }
+        const response = await authService.verifyOtp(email, otp);
+        if (!response.success) {
+            return res.status(403).json({
+                message: response.message,
+                status: false,
+                success: false,
+            });
+        }
+        let data = {
+            token: response.token,
+            id: response.user._id,
+            name: response.user.name,
+            email: response.user.email,
+            phone: response.user.phone,
+            roleId: response.user.roleId
+        }
+        successHandler(res, 200, 'Login Successfully', data);
+    } catch (error) {
+        console.error('Error verifing otp:', error.message);
+        res.status(500).json({ 
+            message: 'Error verifing otp', 
+            status: false, 
+            success: false, 
+            error: error.message 
+        });
+    }
+};

@@ -88,3 +88,26 @@ export const sendOtp = async (email) => {
         throw new Error('Error sending OTP: ' + error.message);
     }
 };
+
+export const verifyOtp = async (email, otp) => {
+    try {
+        const user = await Users.findOne({ email: email });
+        const otpData = await Otps.findOne({ userId: user._id });
+        if (otpData.otp !== otp) {
+            return { success: false, message: 'OTP Mismatched' };
+        } else if (otpData.expiredTime < new Date()) {
+            return { success: false, message: 'OTP Expired' };
+        } else {
+            otpData.verified = true;
+            await otpData.save();
+            const token = jwt.sign(
+                { id: user._id, name: user.name, email: user.email, phone: user.phone, roleId: user.roleId },
+                process.env.JWT_SECRET_KEY,
+                { expiresIn: '1h' }
+            );
+            return { user, token, success: true };
+        }
+    } catch (error) {
+        throw new Error('Error sending OTP: ' + error.message);
+    }
+};
