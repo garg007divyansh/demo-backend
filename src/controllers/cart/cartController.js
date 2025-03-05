@@ -1,0 +1,34 @@
+import { cartService } from '../../services/index.js';
+import { successHandler } from '../../utils/index.js';
+
+export const addToCart = async (req, res) => {
+    try {
+        const { userId, cartItems } = req.body;
+
+        if (!cartItems || cartItems.length === 0) {
+            return res.status(400).json({
+                message: 'No products provided',
+                status: false,
+                success: false,
+            });
+        }
+
+        const response = await cartService.addToCart(userId, cartItems);
+        if (!response.success) {
+            return res.status(404).json({
+                message: response.message,
+                status: false,
+                success: false,
+            });
+        }
+        successHandler(res, 200, 'Product added to cart successfully', null);
+    } catch (error) {
+        console.error('Error adding product to cart:', error.message);
+        res.status(500).json({
+            message: 'Error adding product to cart',
+            status: false,
+            success: false,
+            error: error.message
+        });
+    }
+}

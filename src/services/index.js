@@ -3,6 +3,7 @@ import * as authService from './auth/authService.js';
 import * as masterService from './master/masterService.js';
 import * as userService from './user/userService.js';
 import * as productService from './products/productService.js';
+import * as cartService from './cart/cartService.js';
 
 export {
     adminService,
@@ -10,4 +11,5 @@ export {
     masterService,
     userService,
     productService,
+    cartService,
 }
