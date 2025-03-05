@@ -31,7 +31,16 @@ export const addProduct = async (req, res) => {
 
 export const getAllProducts = async (req, res) => {
     try {
-        const response = await productService.getAllProducts();
+        const id = req.user.id
+        const { partnerId } = req.params
+        if (id !== partnerId) {
+            return res.status(400).json({
+                message: 'Invalid partner ID',
+                status: false,
+                success: false,
+            });
+        }
+        const response = await productService.getAllProducts(partnerId);
         successHandler(res, 200, 'Products retrieved successfully', response);
     } catch (error) {
         console.error('Error fetching product:', error.message);
