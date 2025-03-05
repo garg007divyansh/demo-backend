@@ -1,6 +1,7 @@
 import { productService } from '../../services/index.js';
 import { successHandler } from '../../utils/index.js';
 import { validateAddProduct } from '../../validations/index.js';
+import mongoose from 'mongoose';
 
 export const addProduct = async (req, res) => {
     try {
@@ -48,6 +49,37 @@ export const getAllProducts = async (req, res) => {
         console.error('Error fetching product:', error.message);
         res.status(500).json({
             message: 'Error fetching product',
+            status: false,
+            success: false,
+            error: error.message
+        });
+    }
+}
+
+export const updateProductById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, description, price, image, category, brand, stock } = req.body;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                message: 'Invalid product ID',
+                status: false,
+                success: false,
+            });
+        }
+        const response = await productService.updateProductById(id, { name, description, price, image, category, brand, stock });
+        if (!response) {
+            return res.status(404).json({
+                message: 'Product not found',
+                status: false,
+                success: false,
+            });
+        }
+        successHandler(res, 200, 'Product updated successfully', response);
+    } catch (error) {
+        console.error('Error updated product:', error.message);
+        res.status(500).json({
+            message: 'Error updated product',
             status: false,
             success: false,
             error: error.message

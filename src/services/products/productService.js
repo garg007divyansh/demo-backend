@@ -25,3 +25,12 @@ export const getAllProducts = async (partnerId) => {
         throw new Error('Error fetching product: ' + error.message);
     }
 }
+
+export const updateProductById = async (id, updatedData) => {
+    try {
+        const updatedProduct = await Products.findByIdAndUpdate(id, { $set: updatedData }, { new: true });
+        return updatedProduct;
+    } catch (error) {
+        throw new Error('Error updating product: ' + error.message);
+    }
+};
