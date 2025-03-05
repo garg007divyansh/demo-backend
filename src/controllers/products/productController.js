@@ -31,14 +31,16 @@ export const addProduct = async (req, res) => {
 
 export const getAllProducts = async (req, res) => {
     try {
-        const id = req.user.id
+        const { id } = req.user || {};
         const { partnerId } = req.params
-        if (id !== partnerId) {
-            return res.status(400).json({
-                message: 'Invalid partner ID',
-                status: false,
-                success: false,
-            });
+        if (partnerId) {
+            if (id !== partnerId) {
+                return res.status(400).json({
+                    message: 'Invalid partner ID',
+                    status: false,
+                    success: false,
+                });
+            }
         }
         const response = await productService.getAllProducts(partnerId);
         successHandler(res, 200, 'Products retrieved successfully', response);
