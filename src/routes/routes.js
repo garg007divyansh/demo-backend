@@ -24,6 +24,7 @@ router.delete('/deleteUserById/:id', [authenticateToken, checkSuperAdmin], admin
 router.post('/addProduct', [authenticateToken, checkPartner], productController.addProduct);
 router.get('/getPartnerProducts/:partnerId', [authenticateToken, checkPartner], productController.getAllProducts);
 router.put('/updateProductById/:id', [authenticateToken, checkPartner], productController.updateProductById);
+router.delete('/deleteProductById/:id', [authenticateToken, checkPartner], productController.deleteProductById);
 
 //user routes customer
 router.get('/getUserByToken', authenticateToken, userController.getUserByToken);

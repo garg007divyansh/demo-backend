@@ -58,24 +58,56 @@ export const getAllProducts = async (req, res) => {
 
 export const updateProductById = async (req, res) => {
     try {
-        const { id } = req.params;
+        const partnerId = req.user.id;
+        const productId = req.params.id;
         const { name, description, price, image, category, brand, stock } = req.body;
-        if (!mongoose.Types.ObjectId.isValid(id)) {
+        if (!mongoose.Types.ObjectId.isValid(productId)) {
             return res.status(400).json({
                 message: 'Invalid product ID',
                 status: false,
                 success: false,
             });
         }
-        const response = await productService.updateProductById(id, { name, description, price, image, category, brand, stock });
-        if (!response) {
+        const response = await productService.updateProductById(partnerId, productId, { name, description, price, image, category, brand, stock });
+        if (!response.success) {
             return res.status(404).json({
-                message: 'Product not found',
+                message: response.message,
                 status: false,
                 success: false,
             });
         }
-        successHandler(res, 200, 'Product updated successfully', response);
+        successHandler(res, 200, 'Product updated successfully', response.updatedProduct);
+    } catch (error) {
+        console.error('Error updated product:', error.message);
+        res.status(500).json({
+            message: 'Error updated product',
+            status: false,
+            success: false,
+            error: error.message
+        });
+    }
+}
+
+export const deleteProductById = async (req, res) => {
+    try {
+        const partnerId = req.user.id;
+        const productId = req.params.id;
+        if (!mongoose.Types.ObjectId.isValid(productId)) {
+            return res.status(400).json({
+                message: 'Invalid product ID',
+                status: false,
+                success: false,
+            });
+        }
+        const response = await productService.deleteProductById(partnerId, productId);
+        if (!response.success) {
+            return res.status(404).json({
+                message: response.message,
+                status: false,
+                success: false,
+            });
+        }
+        successHandler(res, 200, 'Product deleted successfully', null);
     } catch (error) {
         console.error('Error updated product:', error.message);
         res.status(500).json({
