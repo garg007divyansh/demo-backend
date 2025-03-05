@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { Users, Roles, Otps } from '../../models/index.js';
 import { sendMail } from '../../utils/emailService.js';
 import moment from 'moment';
+import { generateAccessToken, generateRefreshToken, verifyToken } from '../../utils/generateToken.js';
 
 export const findUserExists = async (email, phone) => {
     return await Users.findOne({ $or: [{ email }, { phone }] });
@@ -19,13 +20,17 @@ export const loginUser = async (userData) => {
         if (!isPasswordValid) {
             return { success: false, message: 'Incorrect password' };
         }
-        // Generate JWT Token
-        const token = jwt.sign(
-            { id: user._id, name: user.name, email: user.email, phone: user.phone, roleId: user.roleId },
-            process.env.JWT_SECRET_KEY,
-            { expiresIn: '1h' }
-        );
-        return { user, token, success: true };
+
+        const payload = {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            roleId: user.roleId,
+        };
+        const accessToken = generateAccessToken(payload);
+        const refreshToken = generateRefreshToken(payload);
+        return { user, accessToken, refreshToken, success: true };
     } catch (error) {
         throw new Error('Error login user: ' + error.message);
     }
@@ -100,14 +105,55 @@ export const verifyOtp = async (email, otp) => {
         } else {
             otpData.verified = true;
             await otpData.save();
-            const token = jwt.sign(
-                { id: user._id, name: user.name, email: user.email, phone: user.phone, roleId: user.roleId },
-                process.env.JWT_SECRET_KEY,
-                { expiresIn: '1h' }
-            );
-            return { user, token, success: true };
+
+            const payload = {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                roleId: user.roleId,
+            };
+
+            const accessToken = generateAccessToken(payload);
+            const refreshToken = generateRefreshToken(payload);
+            // const token = jwt.sign(
+            //     { id: user._id, name: user.name, email: user.email, phone: user.phone, roleId: user.roleId },
+            //     process.env.JWT_SECRET_KEY,
+            //     { expiresIn: '1m' }
+            // );
+            return { user, accessToken, refreshToken, success: true };
         }
     } catch (error) {
         throw new Error('Error sending OTP: ' + error.message);
+    }
+};
+
+export const refreshAccessToken = async (refreshToken) => {
+    try {
+        // Verify the refresh token
+        const payload = verifyToken(refreshToken, process.env.JWT_SECRET_KEY);
+
+        if (!payload) {
+            return {
+                success: false,
+                message: 'Invalid or expired refresh token',
+            };
+        }
+
+        // Generate a new access token
+        const newAccessToken = generateAccessToken({
+            id: payload.id,
+            name: payload.name,
+            email: payload.email,
+            phone: payload.phone,
+            roleId: payload.roleId,
+        });
+
+        return {
+            success: true,
+            accessToken: newAccessToken,
+        };
+    } catch (error) {
+        throw new Error('Error processing refresh token: ' + error.message);
     }
 };

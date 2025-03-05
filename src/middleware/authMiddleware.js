@@ -17,7 +17,7 @@ export const authenticateToken = (req, res, next) => {
         next();
     } catch (error) {
         res.status(403).json({
-            message: 'Invalid token',
+            message: 'Token Expired, Please Login Again',
             status: false,
             success: false,
         });

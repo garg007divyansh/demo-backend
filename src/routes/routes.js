@@ -12,6 +12,7 @@ router.post('/loginUser', authController.loginUser);
 router.post('/register', authController.register);
 router.post('/sendOtp', authController.sendOtp);
 router.post('/verifyOtp', authController.verifyOtp);
+router.post('/refreshToken', authController.refreshAccessToken);
 
 // admin routes
 router.get('/getAllUsers', [authenticateToken, checkSuperAdmin], adminController.getAllUsers);
