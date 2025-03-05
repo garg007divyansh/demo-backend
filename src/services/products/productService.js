@@ -11,8 +11,11 @@ export const addProduct = async (productData) => {
 
 export const getAllProducts = async () => {
     try {
-        const product = await Products.find();
-        return product
+        const products = await Products.find().populate({
+            path: "partnerInfo",
+            select: "name email phone",
+        });
+        return products
     } catch (error) {
         throw new Error('Error fetching product: ' + error.message);
     }

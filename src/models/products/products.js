@@ -30,11 +30,27 @@ const productSchema = new mongoose.Schema({
         required: true,
         min: 0,
     },
-}, { timestamps: true });
+    partnerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'users',
+    },
+}, { timestamps: true, id: false, });
+
+productSchema.virtual("partnerInfo", {
+    ref: "users",              // Reference the 'users' collection
+    localField: "partnerId",   // Field in the Product schema (foreign key)
+    foreignField: "_id",       // Field in the User schema (primary key)
+    justOne: true,             // Return a single object instead of an array
+});
 
 productSchema.set('toJSON', {
+    virtuals: true, 
     transform: (doc, ret) => {
         delete ret.__v;
+        if (ret.partnerInfo) {
+            delete ret.partnerInfo._id;
+        }
         return ret;
     },
 });

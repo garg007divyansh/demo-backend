@@ -1,6 +1,6 @@
 import express from 'express';
 import { authController, adminController, masterController, userController, productController } from '../controllers/index.js';
-import { authenticateToken, checkSuperAdmin } from '../middleware/index.js';
+import { authenticateToken, checkSuperAdmin, checkPartner } from '../middleware/index.js';
 
 const router = express.Router();
 
@@ -19,12 +19,12 @@ router.get('/getUserById/:id', [authenticateToken, checkSuperAdmin], adminContro
 router.put('/updateUserById/:id', [authenticateToken, checkSuperAdmin], adminController.updateUserById);
 router.delete('/deleteUserById/:id', [authenticateToken, checkSuperAdmin], adminController.deleteUserById);
 
-//user routes
+// vendor/partner routes
+router.post('/addProduct', [authenticateToken, checkPartner], productController.addProduct);
+
+//user routes customer
 router.get('/getUserByToken', authenticateToken, userController.getUserByToken);
 router.put('/updateUser', authenticateToken, userController.updateUser);
-
-//product routes
-router.post('/addProduct', authenticateToken, productController.addProduct);
-router.get('/getAllProducts', authenticateToken, productController.getAllProducts);
+router.get('/getAllProducts', productController.getAllProducts);
 
 export default router;

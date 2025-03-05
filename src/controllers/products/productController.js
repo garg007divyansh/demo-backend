@@ -4,6 +4,7 @@ import { validateAddProduct } from '../../validations/index.js';
 
 export const addProduct = async (req, res) => {
     try {
+        const partnerId = req.user.id;
         const { name, description, price, image, category, brand, stock } = req.body;
 
         const validation = validateAddProduct(req.body);
@@ -15,7 +16,7 @@ export const addProduct = async (req, res) => {
             });
         }
 
-        const response = await productService.addProduct({ name, description, price, image, category, brand, stock });
+        const response = await productService.addProduct({ partnerId, name, description, price, image, category, brand, stock });
         successHandler(res, 200, 'Product added successfully', null);
     } catch (error) {
         console.error('Error adding product:', error.message);
