@@ -13,18 +13,13 @@ const cartsSchema = new mongoose.Schema({
                 ref: 'products',
                 required: true,
             },
-            // quantity: {
-            //     type: Number,
-            //     required: true,
-            //     default: 0,
-            // },
+            quantity: {
+                type: Number,
+                required: true,
+                default: 0,
+            },
         }
     ],
-    // totalPrice: {
-    //     type: Number,
-    //     required: true,
-    //     default: 0,
-    // },
-}, {timestamps: true});
+}, { timestamps: true });
 
 export const Carts = mongoose.model('carts', cartsSchema);
