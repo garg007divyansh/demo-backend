@@ -60,7 +60,6 @@ export const getCart = async (userId) => {
 
 export const deleteCart = async (userId, productId) => {
     try {
-
         const cart = await Carts.findOne({ userId });
         if (!cart || cart.products.length === 0) {
             return {
