@@ -11,18 +11,21 @@ export const addProduct = async (productData) => {
     }
 }
 
-export const getAllProducts = async (partnerId) => {
+export const getAllProducts = async (partnerId, limit, skip) => {
     try {
         let products
+        let totalCount
         if (partnerId) {
-            products = await Products.find({partnerId})
+            products = await Products.find({partnerId}).skip(skip).limit(limit);
+            totalCount = products.length
         } else {
-            products = await Products.find().populate({
+            products = await Products.find().skip(skip).limit(limit).populate({
                 path: "partnerInfo",
                 select: "name email phone",
             });
+            totalCount = products.length
         }
-        return products
+        return {products, totalCount}
     } catch (error) {
         throw new Error('Error fetching product: ' + error.message);
     }

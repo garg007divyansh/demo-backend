@@ -34,6 +34,7 @@ export const getAllProducts = async (req, res) => {
     try {
         const { id } = req.user || {};
         const { partnerId } = req.params
+        const { limit, skip } = req.query;
         if (partnerId) {
             if (id !== partnerId) {
                 return res.status(400).json({
@@ -43,7 +44,7 @@ export const getAllProducts = async (req, res) => {
                 });
             }
         }
-        const response = await productService.getAllProducts(partnerId);
+        const response = await productService.getAllProducts(partnerId, parseInt(limit), parseInt(skip));
         successHandler(res, 200, 'Products retrieved successfully', response);
     } catch (error) {
         console.error('Error fetching product:', error.message);
