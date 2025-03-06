@@ -56,3 +56,27 @@ export const getCart = async (req, res) => {
         });
     }
 }
+
+export const deleteCart = async (req, res) => {
+    try {
+        const userId = req.user.id
+        const { productId } = req.body;
+        const response = await cartService.deleteCart(userId, productId);
+        if (!response.success) {
+            return res.status(404).json({
+                message: response.message,
+                status: false,
+                success: false,
+            });
+        }
+        successHandler(res, 200, response.message, null);
+    } catch (error) {
+        console.error('Error deleting products in cart:', error.message);
+        res.status(500).json({
+            message: 'Error deleting products in cart',
+            status: false,
+            success: false,
+            error: error.message
+        });
+    }
+}

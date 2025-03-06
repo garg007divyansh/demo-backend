@@ -38,7 +38,7 @@ export const getCart = async (userId) => {
             path: 'products.productId',
             select: 'name price stock image',
         });
-        if (!cart || cart.products.length === 0) {
+        if (!cart) {
             return {
                 success: false,
                 message: 'Cart is empty or not found',
@@ -55,5 +55,41 @@ export const getCart = async (userId) => {
         };
     } catch (error) {
         throw new Error('Error retrieving cart: ' + error.message);
+    }
+};
+
+export const deleteCart = async (userId, productId) => {
+    try {
+
+        const cart = await Carts.findOne({ userId });
+        if (!cart || cart.products.length === 0) {
+            return {
+                success: false,
+                message: 'Cart is empty or not found',
+            };
+        }
+        if (productId) {
+            const updatedProducts = cart.products.filter(
+                (item) => item.productId.toString() !== productId
+            );
+            if (updatedProducts.length === cart.products.length) {
+                return {
+                    success: false,
+                    message: 'Product not found in the cart',
+                };
+            }
+            cart.products = updatedProducts;
+        } else {
+            cart.products = [];
+        }
+        await cart.save();
+        return {
+            success: true,
+            message: productId
+                ? 'Product removed from the cart successfully'
+                : 'Cart cleared successfully',
+        };
+    } catch (error) {
+        throw new Error('Error deleting cart: ' + error.message);
     }
 };

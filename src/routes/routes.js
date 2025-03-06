@@ -33,6 +33,7 @@ router.put('/updateUser', authenticateToken, userController.updateUser);
 router.get('/getAllProducts', productController.getAllProducts);
 router.post('/addToCart', authenticateToken, cartController.addToCart);
 router.get('/getCart', authenticateToken, cartController.getCart);
+router.delete('/deleteCartItem', authenticateToken, cartController.deleteCart);
 
 // Test route for emitting socket events
 router.get("/test-socket", (req, res) => {
