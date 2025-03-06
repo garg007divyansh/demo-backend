@@ -1,5 +1,5 @@
 import { computeCartDetails, createNewCart, isStockAvailable, updateOrAddProduct } from "../../helpers/index.js";
-import { Carts, Products } from "../../models/index.js";
+import { Carts, Products, Users } from "../../models/index.js";
 
 export const addToCart = async (userId, cartItems) => {
     try {

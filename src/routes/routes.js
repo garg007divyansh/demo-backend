@@ -31,8 +31,8 @@ router.delete('/deleteProductById/:id', [authenticateToken, checkPartner], produ
 router.get('/getUserByToken', authenticateToken, userController.getUserByToken);
 router.put('/updateUser', authenticateToken, userController.updateUser);
 router.get('/getAllProducts', productController.getAllProducts);
-router.post('/addToCart', cartController.addToCart);
-router.get('/getCart/:userId', cartController.getCart);
+router.post('/addToCart', authenticateToken, cartController.addToCart);
+router.get('/getCart', authenticateToken, cartController.getCart);
 
 // Test route for emitting socket events
 router.get("/test-socket", (req, res) => {

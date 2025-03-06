@@ -4,7 +4,8 @@ import mongoose from 'mongoose';
 
 export const addToCart = async (req, res) => {
     try {
-        const { userId, cartItems } = req.body;
+        const userId = req.user.id
+        const { cartItems } = req.body;
 
         if (!cartItems || cartItems.length === 0) {
             return res.status(400).json({
@@ -36,16 +37,7 @@ export const addToCart = async (req, res) => {
 
 export const getCart = async (req, res) => {
     try {
-        const { userId } = req.params;
-
-        if (!mongoose.Types.ObjectId.isValid(userId)) {
-            return res.status(400).json({
-                message: 'Invalid user ID',
-                status: false,
-                success: false,
-            });
-        }
-
+        const userId = req.user.id
         const response = await cartService.getCart(userId);
         if (!response.success) {
             return res.status(404).json({
