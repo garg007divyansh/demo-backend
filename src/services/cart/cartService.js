@@ -60,16 +60,13 @@ export const getCart = async (userId) => {
             path: 'products.productId',
             select: 'name price stock image',
         });
-
         if (!cart || cart.products.length === 0) {
             return {
                 success: false,
                 message: 'Cart is empty or not found',
             };
         }
-
         const { cartDetails, totalPrice } = computeCartDetails(cart); // compute the cart details using helper function
-
         return {
             success: true,
             data: {
