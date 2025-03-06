@@ -2,8 +2,10 @@ import { Products } from "../../models/index.js";
 import { emitUpdate } from "../../utils/index.js";
 
 export const addProduct = async (productData) => {
+    console.log(productData, 'productData')
     try {
         const product = await new Products(productData).save();
+        emitUpdate("product-added", { id: product._id, ...productData });
         return product
     } catch (error) {
         throw new Error('Error adding product: ' + error.message);
@@ -39,19 +41,7 @@ export const updateProductById = async (partnerId, productId, updatedData) => {
             return { success: false, message: 'Wrong Partner Id' };
         }
         const updatedProduct = await Products.findByIdAndUpdate(productId, { $set: updatedData }, { new: true });
-
-        // Detect changes in price or stock
-        const changes = {};
-        if (updatedData.price && updatedData.price !== findProduct.price) {
-            changes.price = updatedData.price;
-        }
-        if (updatedData.stock && updatedData.stock !== findProduct.stock) {
-            changes.stock = updatedData.stock;
-        }
-        // Use the utility to emit changes
-        if (Object.keys(changes).length > 0) {
-            emitUpdate("product-update", {productId, changes});
-        }
+        emitUpdate("product-updated", { id: productId, ...updatedData });
 
         return {updatedProduct, success: true}
     } catch (error) {
@@ -71,8 +61,8 @@ export const deleteProductById = async (partnerId, productId) => {
             return { success: false, message: 'Wrong Partner Id' };
         }
         const deletedProduct = await Products.findByIdAndDelete(productId);
+        emitUpdate("product-deleted", { id: productId });
 
-        emitUpdate("product-deleted", {productId});
         return {deletedProduct, success: true}
     } catch (error) {
         throw new Error('Error updating product: ' + error.message);
