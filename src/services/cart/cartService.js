@@ -1,3 +1,4 @@
+import { computeCartDetails } from "../../helpers/index.js";
 import { Carts, Products } from "../../models/index.js";
 
 export const addToCart = async (userId, cartItems) => {
@@ -67,31 +68,7 @@ export const getCart = async (userId) => {
             };
         }
 
-        // Prepare the cart data with computations
-        let totalPrice = 0;
-        const cartDetails = cart.products.map((productItem) => {
-            const product = productItem.productId;
-
-            if (!product) {
-                return {
-                    success: false,
-                    message: 'Product not found for an item in the cart',
-                };
-            }
-
-            const productTotalPrice = product.price * productItem.quantity; // price for the quantity of the particular product
-            totalPrice = totalPrice + productTotalPrice; // total price for all items in the cart
-
-            return {
-                productId: product._id,
-                name: product.name,
-                price: product.price,
-                quantity: productItem.quantity,
-                stock: product.stock,
-                image: product.image,
-                productTotalPrice,
-            };
-        });
+        const { cartDetails, totalPrice } = computeCartDetails(cart); // compute the cart details using helper function
 
         return {
             success: true,
