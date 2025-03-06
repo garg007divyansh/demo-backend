@@ -1,6 +1,5 @@
 import { cartService } from '../../services/index.js';
 import { successHandler } from '../../utils/index.js';
-import mongoose from 'mongoose';
 
 export const addToCart = async (req, res) => {
     try {
