@@ -2,7 +2,6 @@ import { Products } from "../../models/index.js";
 import { emitUpdate } from "../../utils/index.js";
 
 export const addProduct = async (productData) => {
-    console.log(productData, 'productData')
     try {
         const product = await new Products(productData).save();
         emitUpdate("product-added", { id: product._id, ...productData });
