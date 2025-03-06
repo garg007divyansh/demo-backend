@@ -1,5 +1,6 @@
 import { cartService } from '../../services/index.js';
 import { successHandler } from '../../utils/index.js';
+import mongoose from 'mongoose';
 
 export const addToCart = async (req, res) => {
     try {
@@ -26,6 +27,38 @@ export const addToCart = async (req, res) => {
         console.error('Error adding product to cart:', error.message);
         res.status(500).json({
             message: 'Error adding product to cart',
+            status: false,
+            success: false,
+            error: error.message
+        });
+    }
+}
+
+export const getCart = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({
+                message: 'Invalid user ID',
+                status: false,
+                success: false,
+            });
+        }
+
+        const response = await cartService.getCart(userId);
+        if (!response.success) {
+            return res.status(404).json({
+                message: response.message,
+                status: false,
+                success: false,
+            });
+        }
+        successHandler(res, 200, 'Cart retrieved successfully', response.data);
+    } catch (error) {
+        console.error('Error fetching products to cart:', error.message);
+        res.status(500).json({
+            message: 'Error fetching products to cart',
             status: false,
             success: false,
             error: error.message
