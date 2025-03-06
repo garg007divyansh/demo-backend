@@ -73,11 +73,14 @@ export const getCart = async (userId) => {
             const product = productItem.productId;
 
             if (!product) {
-                throw new Error('Product not found for an item in the cart');
+                return {
+                    success: false,
+                    message: 'Product not found for an item in the cart',
+                };
             }
 
-            const productTotalPrice = product.price * productItem.quantity;
-            totalPrice = totalPrice + productTotalPrice;
+            const productTotalPrice = product.price * productItem.quantity; // price for the quantity of the particular product
+            totalPrice = totalPrice + productTotalPrice; // total price for all items in the cart
 
             return {
                 productId: product._id,
@@ -86,7 +89,7 @@ export const getCart = async (userId) => {
                 quantity: productItem.quantity,
                 stock: product.stock,
                 image: product.image,
-                productTotalPrice, // Price for the quantity of this product
+                productTotalPrice,
             };
         });
 
@@ -95,7 +98,7 @@ export const getCart = async (userId) => {
             data: {
                 userId: cart.userId,
                 products: cartDetails,
-                totalPrice, // Total price of all items in the cart
+                totalPrice,
             },
         };
     } catch (error) {
