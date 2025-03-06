@@ -1,4 +1,4 @@
-import { computeCartDetails } from "../../helpers/index.js";
+import { computeCartDetails, createNewCart, isStockAvailable, updateOrAddProduct } from "../../helpers/index.js";
 import { Carts, Products } from "../../models/index.js";
 
 export const addToCart = async (userId, cartItems) => {
@@ -10,41 +10,19 @@ export const addToCart = async (userId, cartItems) => {
                 message: 'Product not found',
             };
         }
-        if (cartItems.quantity > product.stock) {
-            return {
-                success: false,
-                message: `Available stock is ${product.stock}`,
-            };
+        // checking stock
+        const stockCheck = isStockAvailable(product, cartItems.quantity);
+        if (!stockCheck.success) {
+            return stockCheck;
         }
 
         let cart = await Carts.findOne({ userId });
         if (!cart) {
-            // Create a new cart if it doesn't exist
-            cart = new Carts({
-                userId,
-                products: [
-                    {
-                        productId: cartItems.productId,
-                        quantity: cartItems.quantity,
-                    },
-                ],
-            });
+            // creating new cart if not existing for a user
+            cart = createNewCart(userId, cartItems);
         } else {
-            // Check if the product already exists in the cart
-            const existingProductIndex = cart.products.findIndex(
-                (item) => item.productId.toString() === cartItems.productId
-            );
-
-            if (existingProductIndex > -1) {
-                // Update the quantity of the existing product
-                cart.products[existingProductIndex].quantity = cartItems.quantity;
-            } else {
-                // Add the new product to the cart
-                cart.products.push({
-                    productId: cartItems.productId,
-                    quantity: cartItems.quantity,
-                });
-            }
+            // Update or add the product in the existing cart
+            cart = updateOrAddProduct(cart, cartItems);
         }
         await cart.save();
         return {cart, success: true};

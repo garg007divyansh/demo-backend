@@ -1,5 +1,11 @@
-import { computeCartDetails } from "./cartComputation.js";
+import { computeCartDetails } from "./cartHelpers/cartComputation.js";
+import { isStockAvailable } from "./cartHelpers/checkStock.js";
+import { createNewCart } from "./cartHelpers/createNewCart.js";
+import { updateOrAddProduct } from "./cartHelpers/updateOrAddProduct.js";
 
 export {
-    computeCartDetails
+    computeCartDetails,
+    isStockAvailable,
+    createNewCart,
+    updateOrAddProduct,
 }
