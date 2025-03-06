@@ -1,6 +1,8 @@
 import express from 'express';
+import { createServer } from "http";
 import { connectDB } from './src/databases/index.js';
 import { router } from './src/routes/index.js';
+import { initializeSocket } from './src/sockets/index.js';
 
 const app = express();
 
@@ -12,6 +14,12 @@ app.use('/', router);
 
 // db connection
 connectDB();
+
+// Create an HTTP server
+const server = createServer(app);
+
+//socket connection
+export const io = initializeSocket(server);
 
 // Start the server
 const PORT = process.env.PORT || 3000;

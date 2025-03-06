@@ -1,6 +1,7 @@
 import express from 'express';
 import { authController, adminController, masterController, userController, productController, cartController } from '../controllers/index.js';
 import { authenticateToken, checkSuperAdmin, checkPartner } from '../middleware/index.js';
+import { emitUpdate } from '../utils/index.js';
 
 const router = express.Router();
 
@@ -31,5 +32,20 @@ router.get('/getUserByToken', authenticateToken, userController.getUserByToken);
 router.put('/updateUser', authenticateToken, userController.updateUser);
 router.get('/getAllProducts', productController.getAllProducts);
 router.post('/addToCart', cartController.addToCart);
+
+// Test route for emitting socket events
+router.get("/test-socket", (req, res) => {
+    try {
+        const testEvent = {
+            message: "Socket.IO is working!",
+            timestamp: new Date(),
+        };
+        emitUpdate("test-event", testEvent);
+        res.status(200).send("Socket event emitted successfully!");
+    } catch (error) {
+        console.error("Error emitting test event:", error);
+        res.status(500).send("Failed to emit socket event.");
+    }
+});
 
 export default router;
