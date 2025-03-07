@@ -1,5 +1,5 @@
 import express from 'express';
-import { authController, adminController, masterController, userController, productController, cartController } from '../controllers/index.js';
+import { authController, adminController, masterController, userController, productController, cartController, wishlistController } from '../controllers/index.js';
 import { authenticateToken, checkSuperAdmin, checkPartner } from '../middleware/index.js';
 import { emitUpdate } from '../utils/index.js';
 
@@ -34,6 +34,7 @@ router.get('/getAllProducts', productController.getAllProducts);
 router.post('/addToCart', authenticateToken, cartController.addToCart);
 router.get('/getCart', authenticateToken, cartController.getCart);
 router.delete('/deleteCartItem', authenticateToken, cartController.deleteCart);
+router.post('/addToWishlist', authenticateToken, wishlistController.addToWishlist);
 
 // Test route for emitting socket events
 router.get("/test-socket", (req, res) => {
