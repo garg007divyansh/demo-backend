@@ -36,6 +36,7 @@ router.get('/getCart', authenticateToken, cartController.getCart);
 router.delete('/deleteCartItem', authenticateToken, cartController.deleteCart);
 router.post('/addToWishlist', authenticateToken, wishlistController.addToWishlist);
 router.get('/getWishlist', authenticateToken, wishlistController.getWishlist);
+router.delete('/deleteWishlist', authenticateToken, wishlistController.deleteWishlist);
 
 // Test route for emitting socket events
 router.get("/test-socket", (req, res) => {

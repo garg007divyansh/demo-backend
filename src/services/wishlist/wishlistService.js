@@ -52,3 +52,31 @@ export const getWishlist = async (userId) => {
         throw new Error('Error retrieving wishlist: ' + error.message);
     }
 };
+
+export const deleteWishlist = async (userId, productId) => {
+    try {
+        const wishlist = await Wishlists.findOne({ userId });
+        if (!wishlist || wishlist.products.length === 0) {
+            return {
+                success: false,
+                message: 'Wishlist is empty or not found',
+            };
+        }
+        const updatedProducts = wishlist.products.filter(
+            (item) => item.productId.toString() !== productId
+        );
+        if (updatedProducts.length === wishlist.products.length) {
+            return {
+                success: false,
+                message: 'Product not found in the wishlist',
+            };
+        }
+        wishlist.products = updatedProducts;
+        await wishlist.save();
+        return {
+            success: true,
+        };
+    } catch (error) {
+        throw new Error('Error deleting wishlist: ' + error.message);
+    }
+};

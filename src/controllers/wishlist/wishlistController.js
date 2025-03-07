@@ -65,3 +65,27 @@ export const getWishlist = async (req, res) => {
         });
     }
 }
+
+export const deleteWishlist = async (req, res) => {
+    try {
+        const userId = req.user.id
+        const { productId } = req.body;
+        const response = await wishlistService.deleteWishlist(userId, productId);
+        if (!response.success) {
+            return res.status(404).json({
+                message: response.message,
+                status: false,
+                success: false,
+            });
+        }
+        successHandler(res, 200, 'Product removed from the wishlist successfully', null);
+    } catch (error) {
+        console.error('Error deleting products in wishlist:', error.message);
+        res.status(500).json({
+            message: 'Error deleting products in wishlist',
+            status: false,
+            success: false,
+            error: error.message
+        });
+    }
+}
