@@ -38,7 +38,7 @@ export const getWishlist = async (userId) => {
                 message: 'Wishlist is empty or not found',
             };
         }
-        const formattedProducts = flattenProducts(wishlist.products);
+        const formattedProducts = flattenProducts(wishlist.products);  // compute the wishlist details using helper function
         let data = {
             wishlistId: wishlist._id,
             userId: wishlist.userId,
