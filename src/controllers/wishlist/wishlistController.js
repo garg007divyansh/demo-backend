@@ -70,6 +70,13 @@ export const deleteWishlist = async (req, res) => {
     try {
         const userId = req.user.id
         const { productId } = req.body;
+        if (!mongoose.Types.ObjectId.isValid(productId)) {
+            return res.status(400).json({
+                message: 'Invalid product ID',
+                status: false,
+                success: false,
+            });
+        }
         const response = await wishlistService.deleteWishlist(userId, productId);
         if (!response.success) {
             return res.status(404).json({
