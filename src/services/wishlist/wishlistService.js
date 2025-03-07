@@ -1,4 +1,4 @@
-import { createNewWishList, updateAddWishList } from "../../helpers/index.js";
+import { createNewWishList, flattenProducts, updateAddWishList } from "../../helpers/index.js";
 import { Products, Wishlists } from "../../models/index.js";
 
 export const addToWishlist = async (userId, wishlistItems) => {
@@ -24,3 +24,31 @@ export const addToWishlist = async (userId, wishlistItems) => {
         throw new Error('Error adding product: ' + error.message);
     }
 }
+
+export const getWishlist = async (userId) => {
+    try {
+        // Fetch the wishlist for the user
+        const wishlist = await Wishlists.findOne({ userId }).populate({
+            path: 'products.productId',
+            select: 'name price stock image',
+        });
+        if (!wishlist) {
+            return {
+                success: false,
+                message: 'Wishlist is empty or not found',
+            };
+        }
+        const formattedProducts = flattenProducts(wishlist.products);
+        let data = {
+            wishlistId: wishlist._id,
+            userId: wishlist.userId,
+            products: formattedProducts,
+        }
+        return {
+            success: true,
+            data
+        };
+    } catch (error) {
+        throw new Error('Error retrieving wishlist: ' + error.message);
+    }
+};
