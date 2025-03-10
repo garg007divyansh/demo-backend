@@ -1,5 +1,5 @@
 import express from 'express';
-import { authController, adminController, masterController, userController, productController, cartController, wishlistController } from '../controllers/index.js';
+import { authController, adminController, masterController, userController, productController, cartController, wishlistController, paymentController } from '../controllers/index.js';
 import { authenticateToken, checkSuperAdmin, checkPartner } from '../middleware/index.js';
 import { emitUpdate } from '../utils/index.js';
 
@@ -37,6 +37,7 @@ router.delete('/deleteCartItem', authenticateToken, cartController.deleteCart);
 router.post('/addToWishlist', authenticateToken, wishlistController.addToWishlist);
 router.get('/getWishlist', authenticateToken, wishlistController.getWishlist);
 router.delete('/deleteWishlist', authenticateToken, wishlistController.deleteWishlist);
+router.post('/create-payment-intent', authenticateToken, paymentController.createPaymentIntent);
 
 // Test route for emitting socket events
 router.get("/test-socket", (req, res) => {

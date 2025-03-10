@@ -5,6 +5,7 @@ import * as userService from './user/userService.js';
 import * as productService from './products/productService.js';
 import * as cartService from './cart/cartService.js';
 import * as wishlistService from './wishlist/wishlistService.js';
+import * as paymentService from './payment/paymentService.js';
 
 export {
     adminService,
@@ -14,4 +15,5 @@ export {
     productService,
     cartService,
     wishlistService,
+    paymentService,
 }

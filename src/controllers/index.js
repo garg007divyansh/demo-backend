@@ -5,6 +5,8 @@ import * as userController from './user/userController.js';
 import * as productController from './products/productController.js';
 import * as cartController from './cart/cartController.js';
 import * as wishlistController from './wishlist/wishlistController.js';
+import * as paymentController from './payment/paymentController.js';
+
 export {
     masterController,
     authController,
@@ -13,4 +15,5 @@ export {
     productController,
     cartController,
     wishlistController,
+    paymentController,
 }
